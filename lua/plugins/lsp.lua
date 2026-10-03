@@ -18,6 +18,7 @@ return {
 					"tailwindcss",
 					"jsonls",
 					"bashls",
+					"roslyn_ls",
 				},
 				automatic_installation = true,
 			})
@@ -66,6 +67,30 @@ return {
 
 			vim.lsp.config("bashls", { capabilities = capabilities })
 			vim.lsp.enable("bashls")
+
+			vim.lsp.config("roslyn_ls", {
+				capabilities = capabilities,
+				-- Roslyn normally waits for a solution or project file. Falling back
+				-- to the file's directory also gives standalone .cs learning files
+				-- completion, diagnostics, and formatting.
+				root_dir = function(bufnr, on_dir)
+					local root = vim.fs.root(bufnr, function(name)
+						return name:match("%.slnx?$") ~= nil
+					end)
+						or vim.fs.root(bufnr, function(name)
+							return name:match("%.csproj$") ~= nil
+						end)
+
+					on_dir(root or vim.fs.dirname(vim.api.nvim_buf_get_name(bufnr)))
+				end,
+				settings = {
+					["csharp|symbol_search"] = {
+						dotnet_enable_file_based_programs = true,
+						dotnet_enable_file_based_programs_when_ambiguous = true,
+					},
+				},
+			})
+			vim.lsp.enable("roslyn_ls")
 
 			vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "LSP: Hover Documentation" })
 			vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "LSP: Go to Definition" })

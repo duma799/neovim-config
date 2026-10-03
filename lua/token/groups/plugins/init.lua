@@ -21,6 +21,7 @@ local plugin_modules = {
   'token.groups.plugins.nvimtree',
   'token.groups.plugins.oil',
   'token.groups.plugins.render_markdown',
+  'token.groups.plugins.scrollbar',
   'token.groups.plugins.snacks',
   'token.groups.plugins.telescope',
   'token.groups.plugins.todo_comments',

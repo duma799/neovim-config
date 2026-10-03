@@ -5,10 +5,21 @@ return {
 
     opts = {
         bigfile = { enabled = true },
+        dashboard = {
+            enabled = true,
+            preset = {
+                header = require("dashboard-art"),
+            },
+            sections = {
+                { section = "header", padding = 1 },
+                { icon = " ", title = "Recent Files", section = "recent_files", indent = 2, padding = 1 },
+                { icon = " ", title = "Projects", section = "projects", indent = 2, padding = 1 },
+            },
+        },
         indent = { enabled = true },
         input = { enabled = true },
         quickfile = { enabled = true },
-        scroll = { enabled = true },
+        scroll = { enabled = not vim.g.neovide },
         statuscolumn = { enabled = false },
         words = { enabled = true },
     },
@@ -16,7 +27,8 @@ return {
         { "<leader>z",  function() Snacks.zen() end, desc = "Toggle Zen Mode" },
         { "<leader>s",  function() Snacks.scratch() end, desc = "Toggle Scratch Buffer" },
         { "<leader>S",  function() Snacks.scratch.select() end, desc = "Select Scratch Buffer" },
-        { "<c-/>",      function() Snacks.terminal(nil, { cwd = vim.fn.getcwd() }) end, desc = "Toggle Terminal", mode = { "n", "t" } },
+        { "<c-/>",      function() Snacks.terminal(nil, { cwd = vim.fn.getcwd(), win = { position = "bottom", height = 0.3 } }) end, desc = "Toggle Terminal", mode = { "n", "t" } },
+        { "<c-_>",      function() Snacks.terminal(nil, { cwd = vim.fn.getcwd(), win = { position = "bottom", height = 0.3 } }) end, desc = "Toggle Terminal", mode = { "n", "t" } },
         { "<leader>gB", function() Snacks.gitbrowse() end, desc = "Git Browse", mode = { "n", "v" } },
         { "<leader>gb", function() Snacks.git.blame_line() end, desc = "Git Blame Line" },
         { "<leader>gf", function() Snacks.lazygit.log_file() end, desc = "Lazygit Current File History" },

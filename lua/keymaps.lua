@@ -11,7 +11,7 @@ keymap.set("n", "<C-Left>", ":vertical resize -2<CR>", { desc = "Decrease window
 keymap.set("n", "<C-Right>", ":vertical resize +2<CR>", { desc = "Increase window width" })
 
 keymap.set("n", "<S-l>", ":bnext<CR>", { desc = "Next buffer" })
-keymap.set("n", "<S-h>", ":bprevious<CR>", { desc = "Previous buffer" })
+keymap.set({ "n", "v", "o" }, "<S-h>", "^", { desc = "First non-blank character of line" })
 
 keymap.set("v", "<", "<gv", { desc = "Indent left and reselect" })
 keymap.set("v", ">", ">gv", { desc = "Indent right and reselect" })
@@ -19,8 +19,8 @@ keymap.set("v", ">", ">gv", { desc = "Indent right and reselect" })
 keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move text down" })
 keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move text up" })
 
-keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Scroll down and center" })
-keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Scroll up and center" })
+keymap.set("n", "<C-d>", "<C-d>", { desc = "Scroll down half page" })
+keymap.set("n", "<C-u>", "<C-u>", { desc = "Scroll up half page" })
 keymap.set("n", "n", "nzzzv", { desc = "Next search result and center" })
 keymap.set("n", "N", "Nzzzv", { desc = "Previous search result and center" })
 
@@ -91,6 +91,13 @@ keymap.set("n", "<leader>cb", function()
 	end
 	print("Transparency: " .. (colors.transparent and "ON" or "OFF"))
 end, { desc = "Toggle transparent background" })
+
+keymap.set("n", "<leader>cB", function()
+	local colors = require("custom-colors")
+	colors.bold = not colors.bold
+	vim.cmd.colorscheme(vim.g.colors_name)
+	print("Bold: " .. (colors.bold and "ON" or "OFF"))
+end, { desc = "Toggle bold text" })
 
 keymap.set("n", "<leader>rr", function()
 	local filetype = vim.bo.filetype

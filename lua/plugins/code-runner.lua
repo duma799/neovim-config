@@ -10,6 +10,17 @@ return {
 				size = 15,
 			},
 			filetype = {
+				cs = function()
+					local project_dir = vim.fs.root(0, function(name)
+						return name:match("%.csproj$") ~= nil
+					end)
+
+					if project_dir then
+						return "cd " .. vim.fn.shellescape(project_dir) .. " && dotnet run$end"
+					end
+
+					return "dotnet run --file $file$end"
+				end,
 				python = "python3 -u",
 				javascript = "node",
 				typescript = "ts-node",

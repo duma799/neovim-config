@@ -6,8 +6,8 @@ return {
     config = function()
       require('mini.animate').setup({
         cursor = {
-          enable = true,
-          timing = require('mini.animate').gen_timing.linear({ duration = 100, unit = 'total' }),
+          enable = not vim.g.neovide,
+          timing = require('mini.animate').gen_timing.quadratic({ easing = 'out', duration = 60, unit = 'total' }),
         },
         scroll = {
           enable = false,

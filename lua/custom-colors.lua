@@ -1,6 +1,20 @@
 local M = {}
 
 M.transparent = true
+M.bold = true
+
+-- Делает жирными все highlight-группы (не зависит от шрифта терминала).
+M.apply_bold = function()
+	if not M.bold then
+		return
+	end
+	for name, hl in pairs(vim.api.nvim_get_hl(0, {})) do
+		if not hl.link and not hl.bold then
+			hl.bold = true
+			pcall(vim.api.nvim_set_hl, 0, name, hl)
+		end
+	end
+end
 
 M.apply = function()
 	if M.transparent then
@@ -75,6 +89,8 @@ M.apply = function()
 	else
 		vim.opt.fillchars:append({ vert = "▐", horiz = "▄", vertleft = "▐", vertright = "▐", verthoriz = "▐" })
 	end
+
+	M.apply_bold()
 end
 
 vim.api.nvim_create_autocmd("ColorScheme", {
